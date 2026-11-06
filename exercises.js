@@ -26,6 +26,15 @@
 //   sumOfEvens([1, 2, 3, 4]) -> 6
 // ---------------------------------------------------------------------
 function sumOfEvens(numbers) {
+    let sum = 0;
+    for (let i = 0; i < numbers.length; i++) {
+        let number = numbers[i];
+        // Rest 0 bedeutet: durch 2 teilbar.
+        if (number % 2 === 0) {
+            sum = sum + number;
+        }
+    }
+    return sum;
 }
 
 
@@ -37,6 +46,16 @@ function sumOfEvens(numbers) {
 //   dayName(3) -> "Wednesday"
 // ---------------------------------------------------------------------
 function dayName(dayNumber) {
+    switch (dayNumber) {
+        case 1: return "Monday";
+        case 2: return "Tuesday";
+        case 3: return "Wednesday";
+        case 4: return "Thursday";
+        case 5: return "Friday";
+        case 6: return "Saturday";
+        case 7: return "Sunday";
+        default: return "Invalid";
+    }
 }
 
 
@@ -48,6 +67,17 @@ function dayName(dayNumber) {
 //   countVowels("Hello World") -> 3
 // ---------------------------------------------------------------------
 function countVowels(text) {
+    let count = 0;
+    for (let i = 0; i < text.length; i++) {
+        switch (text[i]) {
+            case "a": case "A": case "e": case "E":
+            case "i": case "I": case "o": case "O":
+            case "u": case "U":
+                count++;
+                break;
+        }
+    }
+    return count;
 }
 
 
@@ -59,6 +89,25 @@ function countVowels(text) {
 //   fizzBuzz(5) -> "1, 2, Fizz, 4, Buzz"
 // ---------------------------------------------------------------------
 function fizzBuzz(n) {
+    let result = "";
+    for (let number = 1; number <= n; number++) {
+        let part = "";
+        // Zuerst den gemeinsamen Fall prüfen.
+        if (number % 3 === 0 && number % 5 === 0) {
+            part = "FizzBuzz";
+        } else if (number % 3 === 0) {
+            part = "Fizz";
+        } else if (number % 5 === 0) {
+            part = "Buzz";
+        } else {
+            part = "" + number;
+        }
+        if (number > 1) {
+            result = result + ", ";
+        }
+        result = result + part;
+    }
+    return result;
 }
 
 
@@ -70,6 +119,17 @@ function fizzBuzz(n) {
 //   isPalindrome("level") -> true
 // ---------------------------------------------------------------------
 function isPalindrome(word) {
+    let front = 0;
+    let back = word.length - 1;
+    let palindrome = true;
+    while (front < back) {
+        if (word[front] !== word[back]) {
+            palindrome = false;
+        }
+        front = front + 1;
+        back = back - 1;
+    }
+    return palindrome;
 }
 
 
@@ -83,6 +143,17 @@ function isPalindrome(word) {
 //             ***
 // ---------------------------------------------------------------------
 function buildTriangle(height) {
+    let triangle = "";
+    for (let row = 1; row <= height; row++) {
+        for (let column = 1; column <= row; column++) {
+            triangle = triangle + "*";
+        }
+        // Nur zwischen den Zeilen einen Umbruch hinzufügen.
+        if (row < height) {
+            triangle = triangle + "\n";
+        }
+    }
+    return triangle;
 }
 
 
@@ -93,6 +164,14 @@ function buildTriangle(height) {
 //   countWeekendDays([1, 6, 7, 3]) -> 2
 // ---------------------------------------------------------------------
 function countWeekendDays(dayNumbers) {
+    let count = 0;
+    for (let i = 0; i < dayNumbers.length; i++) {
+        let day = dayName(dayNumbers[i]);
+        if (day === "Saturday" || day === "Sunday") {
+            count++;
+        }
+    }
+    return count;
 }
 
 
@@ -103,6 +182,19 @@ function countWeekendDays(dayNumbers) {
 //   pointsToGrade(85) -> 2
 // ---------------------------------------------------------------------
 function pointsToGrade(points) {
+    let grade;
+    if (points >= 90) {
+        grade = 1;
+    } else if (points >= 80) {
+        grade = 2;
+    } else if (points >= 65) {
+        grade = 3;
+    } else if (points >= 50) {
+        grade = 4;
+    } else {
+        grade = 5;
+    }
+    return grade;
 }
 
 
@@ -115,6 +207,16 @@ function pointsToGrade(points) {
 //       5 Insufficient
 // ---------------------------------------------------------------------
 function gradeReport(student) {
+    let grade = pointsToGrade(student.points);
+    let label = "";
+    switch (grade) {
+        case 1: label = "Excellent"; break;
+        case 2: label = "Good"; break;
+        case 3: label = "Satisfactory"; break;
+        case 4: label = "Sufficient"; break;
+        case 5: label = "Insufficient"; break;
+    }
+    return student.name + ": " + grade + " (" + label + ")";
 }
 
 
@@ -127,6 +229,20 @@ function gradeReport(student) {
 //   rockPaperScissors("rock", "paper") -> "Player 2 wins"
 // ---------------------------------------------------------------------
 function rockPaperScissors(choice1, choice2) {
+    let valid1 = choice1 === "rock" || choice1 === "paper" || choice1 === "scissors";
+    let valid2 = choice2 === "rock" || choice2 === "paper" || choice2 === "scissors";
+    if (!valid1 || !valid2) {
+        return "Invalid input";
+    }
+    if (choice1 === choice2) {
+        return "Draw";
+    }
+    if ((choice1 === "rock" && choice2 === "scissors") ||
+        (choice1 === "scissors" && choice2 === "paper") ||
+        (choice1 === "paper" && choice2 === "rock")) {
+        return "Player 1 wins";
+    }
+    return "Player 2 wins";
 }
 
 
@@ -137,6 +253,19 @@ function rockPaperScissors(choice1, choice2) {
 // highest age, return the one that comes first. Empty array gives "".
 // ---------------------------------------------------------------------
 function findOldest(people) {
+    if (people.length === 0) {
+        return "";
+    }
+    let oldestName = people[0].name;
+    let highestAge = people[0].age;
+    for (let i = 1; i < people.length; i++) {
+        // Bei Gleichstand bleibt die erste Person gespeichert.
+        if (people[i].age > highestAge) {
+            highestAge = people[i].age;
+            oldestName = people[i].name;
+        }
+    }
+    return oldestName;
 }
 
 
@@ -148,6 +277,13 @@ function findOldest(people) {
 //     -> ["Tom"]
 // ---------------------------------------------------------------------
 function namesAtLeastAge(people, minAge) {
+    let names = [];
+    for (let i = 0; i < people.length; i++) {
+        if (people[i].age >= minAge) {
+            names.push(people[i].name);
+        }
+    }
+    return names;
 }
 
 
@@ -159,6 +295,15 @@ function namesAtLeastAge(people, minAge) {
 //   cartTotal([{ item: "Pen", price: 2, quantity: 10 }]) -> 18
 // ---------------------------------------------------------------------
 function cartTotal(cart) {
+    let total = 0;
+    for (let i = 0; i < cart.length; i++) {
+        let subtotal = cart[i].price * cart[i].quantity;
+        if (cart[i].quantity >= 10) {
+            subtotal = subtotal * 0.9;
+        }
+        total = total + subtotal;
+    }
+    return total;
 }
 
 
@@ -169,6 +314,18 @@ function cartTotal(cart) {
 //   isPrime(7) -> true,  isPrime(9) -> false
 // ---------------------------------------------------------------------
 function isPrime(n) {
+    if (n < 2) {
+        return false;
+    }
+    let divisor = 2;
+    let prime = true;
+    while (divisor < n) {
+        if (n % divisor === 0) {
+            prime = false;
+        }
+        divisor = divisor + 1;
+    }
+    return prime;
 }
 
 
@@ -179,6 +336,13 @@ function isPrime(n) {
 //   primesUpTo(10) -> [2, 3, 5, 7]
 // ---------------------------------------------------------------------
 function primesUpTo(n) {
+    let primes = [];
+    for (let candidate = 2; candidate <= n; candidate++) {
+        if (isPrime(candidate)) {
+            primes.push(candidate);
+        }
+    }
+    return primes;
 }
 
 
@@ -193,6 +357,28 @@ function primesUpTo(n) {
 //     -> { wordCount: 4, longestWord: "quick" }
 // ---------------------------------------------------------------------
 function wordStatistics(sentence) {
+    let wordCount = 0;
+    let longestWord = "";
+    let currentWord = "";
+    for (let i = 0; i < sentence.length; i++) {
+        if (sentence[i] !== " ") {
+            currentWord = currentWord + sentence[i];
+        } else if (currentWord.length > 0) {
+            wordCount = wordCount + 1;
+            if (currentWord.length > longestWord.length) {
+                longestWord = currentWord;
+            }
+            currentWord = "";
+        }
+    }
+    // Das letzte Wort kann ohne abschließendes Leerzeichen enden.
+    if (currentWord.length > 0) {
+        wordCount = wordCount + 1;
+        if (currentWord.length > longestWord.length) {
+            longestWord = currentWord;
+        }
+    }
+    return { wordCount: wordCount, longestWord: longestWord };
 }
 
 
